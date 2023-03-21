@@ -1,0 +1,1328 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Entity;
+
+/**
+ *
+ * @author Nhat Anh PC
+ */
+public class Book implements Comparable<Book> {
+
+    private String bcode;
+    private String title;
+    private int quantity;
+    private int lended;
+    private double price;
+
+    public Book() {
+    }
+
+    public Book(String bcode, String title, int quantity, int lended, double price) {
+        this.bcode = bcode;
+        this.title = title;
+        this.quantity = quantity;
+        this.lended = lended;
+        this.price = price;
+    }
+
+    public String getBcode() {
+        return bcode;
+    }
+
+    public void setBcode(String bcode) {
+        this.bcode = bcode;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getLended() {
+        return lended;
+    }
+
+    public void setLended(int lended) {
+        this.lended = lended;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public double value() {
+        return this.price * this.quantity;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%-10s|%-20s|%10d|%10d|%8.1f|%8.1f", bcode, title, quantity, lended, price, value());
+    }
+
+    @Override
+    public int compareTo(Book o) {
+        int n = o.getBcode().compareTo(bcode);
+        if (n < 0) {
+            return 1;
+        } else if (n == 0) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+}
+
+
+public class Lending  implements Comparable<Lending> {
+    private String bcode;
+    private String rcode;
+    private int state;
+
+    public Lending() {
+    }
+
+    public Lending(String bcode, String rcode, int state) {
+        this.bcode = bcode;
+        this.rcode = rcode;
+        this.state = state;
+    }
+
+    public String getBcode() {
+        return bcode;
+    }
+
+    public void setBcode(String bcode) {
+        this.bcode = bcode;
+    }
+
+    public String getRcode() {
+        return rcode;
+    }
+
+    public void setRcode(String rcode) {
+        this.rcode = rcode;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%-12s|%-12s|%4d", bcode, rcode, state);
+    }
+    
+    @Override
+    public int compareTo(Lending t) {
+        int n = t.getBcode().compareTo(bcode);
+        int m = t.getRcode().compareTo(rcode);
+        if (n != 0) {
+            if (n < 0) {
+                return 1;
+            } else if (n == 0) {
+                return 0;
+            } else {
+                return -1;
+            }
+        } else {
+            if (m < 0) {
+                return 1;
+            } else if (m == 0) {
+                return 0;
+            } else {
+                return -1;
+            }
+        }
+    }
+}
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Entity;
+
+/**
+ *
+ * @author Nhat Anh PC
+ */
+public class Reader {
+
+    private String rcode;
+    private String name;
+    private int byear;
+
+    public Reader() {
+    }
+
+    public Reader(String rcode, String name, int byear) {
+        this.rcode = rcode;
+        this.name = name;
+        this.byear = byear;
+       
+    }
+
+    public String getRcode() {
+        return rcode;
+    }
+
+    public void setRcode(String rcode) {
+        this.rcode = rcode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getByear() {
+        return byear;
+    }
+
+    public void setByear(int byear) {
+        this.byear = byear;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return String.format("%-11s|%-20s|%4d", rcode, name, byear);
+    }
+}
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Manager;
+
+import java.util.Scanner;
+
+/**
+ *
+ * @author Nhat Anh PC
+ */
+public class Validate {
+
+    private static final Scanner sc = new Scanner(System.in);
+    private static final Scanner scStr = new Scanner(System.in);
+
+    public static int checkInputLimited(int min, int max) {
+        while (true) {
+            try {
+                int result = Integer.parseInt(sc.nextLine());
+                if (result < min || result > max) {
+                    System.err.println("Please enter " + min + " to " + max + "!");
+                    System.out.print("Enter again: ");
+                } else {
+                    return result;
+                }
+            } catch (NumberFormatException n) {
+                System.err.println("Please input number!");
+                System.out.print("Enter again: ");
+            }
+        }
+    }
+
+    public static String checkInputString() {
+        while (true) {
+            try {
+                String result = scStr.nextLine();
+                if (result.isEmpty()) {
+                    throw new NullPointerException();
+                }
+                return result;
+            } catch (NullPointerException n) {
+                System.err.println("Please input String!");
+                System.out.print("Enter again: ");
+
+            }
+        }
+    }
+
+    public static int checkInputInt() {
+        while (true) {
+            try {
+                int result = Integer.parseInt(sc.nextLine());
+                return result;
+            } catch (Exception n) {
+                System.err.println("Please input number!");
+                System.out.print("Enter again: ");
+                
+            }
+        }
+    }
+
+    public static double checkInputDouble() {
+        while (true) {
+            try {
+                double result = Double.parseDouble(sc.nextLine());
+                return result;
+            } catch (NumberFormatException n) {
+                System.err.println("Please input number!");
+                System.out.print("Enter again: ");
+                
+            }
+        }
+    }
+}
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Menu;
+
+import Entity.Book;
+import Entity.Lending;
+import Entity.Reader;
+import Manager.Validate;
+import MyList.BookBST;
+import MyList.BookNode;
+import MyList.LenderList;
+import MyList.ReaderList;
+import java.util.Collections;
+import java.util.LinkedList;
+
+/**
+ *
+ * @author Nhat Anh PC
+ */
+public class Menu {
+
+    public void MenuO(BookNode bl, LinkedList<Reader> rl, LinkedList<Lending> lendingList) {
+
+        LenderList l = new LenderList();
+
+        while (true) {
+            System.out.println("3.1.      Input data\n"
+                    + "3.2.      Display data\n"
+                    + "3.3.      Sort  by bcode + rcode");
+            System.out.print("Your choice : ");
+            int choice = Validate.checkInputLimited(0, 3);
+
+            if (choice == 0) {
+                break;
+            }
+            switch (choice) {
+                case 1:
+                    System.out.println("Input Book Code: ");
+                    String bCode = Validate.checkInputString();
+                    System.out.println("Input Reader Code: ");
+                    String rCode = Validate.checkInputString();
+                    System.out.println("Input Status: ");
+                    int state = Validate.checkInputLimited(0, 2);
+
+                    Lending a = l.InputData(lendingList, bl, rl, bCode, rCode, state);
+
+                    if (a != null) {
+                        lendingList.add(a);
+                    }
+                    break;
+                case 2:
+                    System.out.println(" Book Code  |Reader Code | Status");
+                    for (Lending lending : lendingList) {
+                        System.out.println(lending);
+                    }
+                    //Display
+                    break;
+                case 3:
+                    //Sort
+                    Collections.sort(lendingList);
+                    break;
+            }
+        }
+    }
+
+    public LinkedList<Book> MenuB(String fileName, LinkedList<Book> bl) throws Exception {
+
+        BookBST b = new BookBST();
+        LinkedList<Book> bl2 = new LinkedList<>();
+
+        while (true) {
+            System.out.println("1.1.      Load data from file\n"
+                    + "1.2.      Input & insert data\n"
+                    + "1.3.      In-order traverse\n"
+                    + "1.4.      Breadth-first traverse\n"
+                    + "1.5.      In-order traverse to file\n"
+                    + "1.6.      Search by bcode\n"
+                    + "1.7.      Delete by bcode by copying\n"
+                    + "1.8.      Simply balancing\n"
+                    + "1.9.      Count number of books");
+            int choice = Validate.checkInputLimited(0, 9);
+
+            if (choice == 0) {
+                break;
+            }
+            switch (choice) {
+                case 1:
+                    bl = b.ReadFromFile(fileName, bl);
+                    b.insertMany(bl);
+                    break;
+                case 2:
+                    b.InputAndAddToTheEnd();
+                    break;
+                case 3:
+
+                    for (Book bk : b.inOrder(b.root, bl2)) {
+                        System.out.println(bk);
+                    }
+                    break;
+                case 4:
+                    b.breadth(b.root);
+                    break;
+                case 5:
+                    b.WriteToFile(fileName, false, b.inOrder(b.root, bl2));
+                    break;
+                case 6:
+                    System.out.println("Enter Book code you want to find : ");
+                    String bCode = Validate.checkInputString();
+                    if (b.SearchBcode(b.root, bCode) != null) {
+                        System.out.println("Found");
+                        System.out.println(b.SearchBcode(b.root, bCode));
+                    } else {
+                        System.out.println("Not found");
+                    }
+                    break;
+                case 7:
+                    System.out.println("Enter Book code you want to delete : ");
+                    String DelBCode = Validate.checkInputString();
+                    b.DeletionByCopying(b.root, DelBCode);
+                    break;
+                case 8:
+                    b.clear();
+                    b.SimplyBalanced(b.inOrder(b.root, bl2), 0, b.inOrder(b.root, bl2).size() - 1);
+                    break;
+                case 9:
+                    break;
+            }
+        }
+        return bl;
+    }
+
+    public LinkedList<Reader> MenuR(String fileName, LinkedList<Reader> rl) throws Exception {
+        ReaderList r = new ReaderList();
+        while (true) {
+            System.out.println("2.1.      Load data from file\n"
+                    + "2.2.      Input & add to the end\n"
+                    + "2.3.      Display data\n"
+                    + "2.4.      Save reader list to file\n"
+                    + "2.5.      Search by rcode\n"
+                    + "2.6.      Delete by rcode\n"
+                    + "2.7       Add Reader After 2nd City");
+            System.out.print("Your choice : ");
+            int choice = Validate.checkInputLimited(0, 10);
+
+            if (choice == 0) {
+                break;
+            }
+            switch (choice) {
+                case 1:
+                    rl = r.ReadFromFile(fileName, rl);
+                    break;
+                case 2:
+                    r.InputAndAddToTheEnd(rl);
+                    break;
+                case 3:
+                    r.Display(rl);
+                    break;
+                case 4:
+                    r.WriteToFile(fileName, false, rl);
+                    break;
+                case 5:
+                    System.out.println("Enter Book code you want to find : ");
+                    String rCode = Validate.checkInputString();
+                    if (r.SearchRcode(rl, rCode) != null) {
+                        System.out.println("Found");
+                        System.out.println(r.SearchRcode(rl, rCode));
+                    } else {
+                        System.out.println("Not found");
+                    }
+                    break;
+                case 6:
+                    System.out.println("Enter Book code you want to delete : ");
+                    String DelRCode = Validate.checkInputString();
+                    r.DeleteByBcode(rl, DelRCode);
+                    break;
+            }
+        }
+        return rl;
+    }
+}
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Entity;
+
+/**
+ *
+ * @author Nhat Anh PC
+ */
+public class Book implements Comparable<Book> {
+
+    private String bcode;
+    private String title;
+    private int quantity;
+    private int lended;
+    private double price;
+
+    public Book() {
+    }
+
+    public Book(String bcode, String title, int quantity, int lended, double price) {
+        this.bcode = bcode;
+        this.title = title;
+        this.quantity = quantity;
+        this.lended = lended;
+        this.price = price;
+    }
+
+    public String getBcode() {
+        return bcode;
+    }
+
+    public void setBcode(String bcode) {
+        this.bcode = bcode;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getLended() {
+        return lended;
+    }
+
+    public void setLended(int lended) {
+        this.lended = lended;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public double value() {
+        return this.price * this.quantity;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%-10s|%-20s|%10d|%10d|%8.1f|%8.1f", bcode, title, quantity, lended, price, value());
+    }
+
+    @Override
+    public int compareTo(Book o) {
+        int n = o.getBcode().compareTo(bcode);
+        if (n < 0) {
+            return 1;
+        } else if (n == 0) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+}
+
+
+public class Lending  implements Comparable<Lending> {
+    private String bcode;
+    private String rcode;
+    private int state;
+
+    public Lending() {
+    }
+
+    public Lending(String bcode, String rcode, int state) {
+        this.bcode = bcode;
+        this.rcode = rcode;
+        this.state = state;
+    }
+
+    public String getBcode() {
+        return bcode;
+    }
+
+    public void setBcode(String bcode) {
+        this.bcode = bcode;
+    }
+
+    public String getRcode() {
+        return rcode;
+    }
+
+    public void setRcode(String rcode) {
+        this.rcode = rcode;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%-12s|%-12s|%4d", bcode, rcode, state);
+    }
+    
+    @Override
+    public int compareTo(Lending t) {
+        int n = t.getBcode().compareTo(bcode);
+        int m = t.getRcode().compareTo(rcode);
+        if (n != 0) {
+            if (n < 0) {
+                return 1;
+            } else if (n == 0) {
+                return 0;
+            } else {
+                return -1;
+            }
+        } else {
+            if (m < 0) {
+                return 1;
+            } else if (m == 0) {
+                return 0;
+            } else {
+                return -1;
+            }
+        }
+    }
+}
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Entity;
+
+/**
+ *
+ * @author Nhat Anh PC
+ */
+public class Reader {
+
+    private String rcode;
+    private String name;
+    private int byear;
+
+    public Reader() {
+    }
+
+    public Reader(String rcode, String name, int byear) {
+        this.rcode = rcode;
+        this.name = name;
+        this.byear = byear;
+       
+    }
+
+    public String getRcode() {
+        return rcode;
+    }
+
+    public void setRcode(String rcode) {
+        this.rcode = rcode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getByear() {
+        return byear;
+    }
+
+    public void setByear(int byear) {
+        this.byear = byear;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return String.format("%-11s|%-20s|%4d", rcode, name, byear);
+    }
+}
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Manager;
+
+import java.util.Scanner;
+
+/**
+ *
+ * @author Nhat Anh PC
+ */
+public class Validate {
+
+    private static final Scanner sc = new Scanner(System.in);
+    private static final Scanner scStr = new Scanner(System.in);
+
+    public static int checkInputLimited(int min, int max) {
+        while (true) {
+            try {
+                int result = Integer.parseInt(sc.nextLine());
+                if (result < min || result > max) {
+                    System.err.println("Please enter " + min + " to " + max + "!");
+                    System.out.print("Enter again: ");
+                } else {
+                    return result;
+                }
+            } catch (NumberFormatException n) {
+                System.err.println("Please input number!");
+                System.out.print("Enter again: ");
+            }
+        }
+    }
+
+    public static String checkInputString() {
+        while (true) {
+            try {
+                String result = scStr.nextLine();
+                if (result.isEmpty()) {
+                    throw new NullPointerException();
+                }
+                return result;
+            } catch (NullPointerException n) {
+                System.err.println("Please input String!");
+                System.out.print("Enter again: ");
+
+            }
+        }
+    }
+
+    public static int checkInputInt() {
+        while (true) {
+            try {
+                int result = Integer.parseInt(sc.nextLine());
+                return result;
+            } catch (Exception n) {
+                System.err.println("Please input number!");
+                System.out.print("Enter again: ");
+                
+            }
+        }
+    }
+
+    public static double checkInputDouble() {
+        while (true) {
+            try {
+                double result = Double.parseDouble(sc.nextLine());
+                return result;
+            } catch (NumberFormatException n) {
+                System.err.println("Please input number!");
+                System.out.print("Enter again: ");
+                
+            }
+        }
+    }
+}
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Menu;
+
+import Entity.Book;
+import Entity.Lending;
+import Entity.Reader;
+import Manager.Validate;
+import MyList.BookBST;
+import MyList.BookNode;
+import MyList.LenderList;
+import MyList.ReaderList;
+import java.util.Collections;
+import java.util.LinkedList;
+
+/**
+ *
+ * @author Nhat Anh PC
+ */
+public class Menu {
+
+    public void MenuO(BookNode bl, LinkedList<Reader> rl, LinkedList<Lending> lendingList) {
+
+        LenderList l = new LenderList();
+
+        while (true) {
+            System.out.println("3.1.      Input data\n"
+                    + "3.2.      Display data\n"
+                    + "3.3.      Sort  by bcode + rcode");
+            System.out.print("Your choice : ");
+            int choice = Validate.checkInputLimited(0, 3);
+
+            if (choice == 0) {
+                break;
+            }
+            switch (choice) {
+                case 1:
+                    System.out.println("Input Book Code: ");
+                    String bCode = Validate.checkInputString();
+                    System.out.println("Input Reader Code: ");
+                    String rCode = Validate.checkInputString();
+                    System.out.println("Input Status: ");
+                    int state = Validate.checkInputLimited(0, 2);
+
+                    Lending a = l.InputData(lendingList, bl, rl, bCode, rCode, state);
+
+                    if (a != null) {
+                        lendingList.add(a);
+                    }
+                    break;
+                case 2:
+                    System.out.println(" Book Code  |Reader Code | Status");
+                    for (Lending lending : lendingList) {
+                        System.out.println(lending);
+                    }
+                    //Display
+                    break;
+                case 3:
+                    //Sort
+                    Collections.sort(lendingList);
+                    break;
+            }
+        }
+    }
+
+    public LinkedList<Book> MenuB(String fileName, LinkedList<Book> bl) throws Exception {
+
+        BookBST b = new BookBST();
+        LinkedList<Book> bl2 = new LinkedList<>();
+
+        while (true) {
+            System.out.println("1.1.      Load data from file\n"
+                    + "1.2.      Input & insert data\n"
+                    + "1.3.      In-order traverse\n"
+                    + "1.4.      Breadth-first traverse\n"
+                    + "1.5.      In-order traverse to file\n"
+                    + "1.6.      Search by bcode\n"
+                    + "1.7.      Delete by bcode by copying\n"
+                    + "1.8.      Simply balancing\n"
+                    + "1.9.      Count number of books");
+            int choice = Validate.checkInputLimited(0, 9);
+
+            if (choice == 0) {
+                break;
+            }
+            switch (choice) {
+                case 1:
+                    bl = b.ReadFromFile(fileName, bl);
+                    b.insertMany(bl);
+                    break;
+                case 2:
+                    b.InputAndAddToTheEnd();
+                    break;
+                case 3:
+
+                    for (Book bk : b.inOrder(b.root, bl2)) {
+                        System.out.println(bk);
+                    }
+                    break;
+                case 4:
+                    b.breadth(b.root);
+                    break;
+                case 5:
+                    b.WriteToFile(fileName, false, b.inOrder(b.root, bl2));
+                    break;
+                case 6:
+                    System.out.println("Enter Book code you want to find : ");
+                    String bCode = Validate.checkInputString();
+                    if (b.SearchBcode(b.root, bCode) != null) {
+                        System.out.println("Found");
+                        System.out.println(b.SearchBcode(b.root, bCode));
+                    } else {
+                        System.out.println("Not found");
+                    }
+                    break;
+                case 7:
+                    System.out.println("Enter Book code you want to delete : ");
+                    String DelBCode = Validate.checkInputString();
+                    b.DeletionByCopying(b.root, DelBCode);
+                    break;
+                case 8:
+                    b.clear();
+                    b.SimplyBalanced(b.inOrder(b.root, bl2), 0, b.inOrder(b.root, bl2).size() - 1);
+                    break;
+                case 9:
+                    break;
+            }
+        }
+        return bl;
+    }
+
+    public LinkedList<Reader> MenuR(String fileName, LinkedList<Reader> rl) throws Exception {
+        ReaderList r = new ReaderList();
+        while (true) {
+            System.out.println("2.1.      Load data from file\n"
+                    + "2.2.      Input & add to the end\n"
+                    + "2.3.      Display data\n"
+                    + "2.4.      Save reader list to file\n"
+                    + "2.5.      Search by rcode\n"
+                    + "2.6.      Delete by rcode\n"
+                    + "2.7       Add Reader After 2nd City");
+            System.out.print("Your choice : ");
+            int choice = Validate.checkInputLimited(0, 10);
+
+            if (choice == 0) {
+                break;
+            }
+            switch (choice) {
+                case 1:
+                    rl = r.ReadFromFile(fileName, rl);
+                    break;
+                case 2:
+                    r.InputAndAddToTheEnd(rl);
+                    break;
+                case 3:
+                    r.Display(rl);
+                    break;
+                case 4:
+                    r.WriteToFile(fileName, false, rl);
+                    break;
+                case 5:
+                    System.out.println("Enter Book code you want to find : ");
+                    String rCode = Validate.checkInputString();
+                    if (r.SearchRcode(rl, rCode) != null) {
+                        System.out.println("Found");
+                        System.out.println(r.SearchRcode(rl, rCode));
+                    } else {
+                        System.out.println("Not found");
+                    }
+                    break;
+                case 6:
+                    System.out.println("Enter Book code you want to delete : ");
+                    String DelRCode = Validate.checkInputString();
+                    r.DeleteByBcode(rl, DelRCode);
+                    break;
+            }
+        }
+        return rl;
+    }
+}
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package MyList;
+
+import Entity.Book;
+
+/**
+ *
+ * @author Nhat Anh PC
+ */
+public class BookNode {
+
+    Book info;
+    BookNode left, right;
+
+    BookNode() {
+    }
+    
+    BookNode(Book x) {
+        info = x;
+        left = right = null;
+    }
+}
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package MyList;
+
+import java.util.LinkedList;
+
+/**
+ *
+ * @author Nhat Anh PC
+ */
+public class BookQueue {
+    LinkedList<BookNode> t;
+   BookQueue() {
+     t=new LinkedList<BookNode>();  
+   }
+   void clear() {
+     t.clear();  
+   }
+   boolean isEmpty() {
+     return(t.isEmpty());  
+   }
+   void enqueue(BookNode p) {
+      t.addLast(p);
+   }
+   BookNode dequeue() {
+      if(isEmpty()) return(null);
+      return(t.removeFirst());
+   }
+   BookNode front() {
+      if(isEmpty()) return(null);
+      return(t.getFirst());    
+   }
+}
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package MyList;
+
+import Entity.Book;
+import Entity.Lending;
+import Entity.Reader;
+import java.io.File;
+import java.util.LinkedList;
+import java.util.Scanner;
+
+/**
+ *
+ * @author Nhat Anh PC
+ */
+public class LenderList {
+
+    LenderNode head;
+    LenderNode tail;
+    LenderNode sorted;
+
+    public LenderList() {
+        head = tail = null;
+    }
+
+    boolean isEmpty() {
+        return (head == null);
+    }
+
+    public LenderNode addLast(Lending x) {
+        LenderNode q = new LenderNode(x);
+        if (isEmpty()) {
+            head = tail = q;
+            return q;
+        }
+        tail.next = q;
+        tail = q;
+        return q;
+    }
+
+    public void ReadFromFile(String fileName) throws Exception {
+        File file = new File(fileName);
+        Scanner sc = new Scanner(file);
+        while (sc.hasNextLine()) {
+            String st = sc.nextLine();
+            String[] s = st.split("[|]");
+            String bcode = s[0];
+            String rcode = s[1];
+            int status = Integer.parseInt(s[2].trim());
+            addLast(new Lending(bcode, rcode, status));
+        }
+    }
+
+    public Lending InputData(LinkedList<Lending> listL, BookNode bRoot, LinkedList<Reader> listR, String bCode, String rCode, int status) {
+        BookBST b = new BookBST();
+        ReaderList r = new ReaderList();
+
+        if (b.SearchBcode(bRoot, bCode) == null && r.SearchRcode(listR, rCode) == null) {
+            return null;
+        } else if (checkExist(listL, bCode, rCode) == 1) {
+            return null;
+        } else if (b.SearchBcode(bRoot, bCode) != null && r.SearchRcode(listR, rCode) != null
+                && b.SearchBcode(bRoot, bCode).getLended() == b.SearchBcode(bRoot, bCode).getQuantity()) {
+            return new Lending(bCode, rCode, 0);
+        } else if (b.SearchBcode(bRoot, bCode) != null && r.SearchRcode(listR, rCode) != null
+                && b.SearchBcode(bRoot, bCode).getLended() < b.SearchBcode(bRoot, bCode).getQuantity()) {
+
+            b.SearchBcode(bRoot, bCode).setLended(b.SearchBcode(bRoot, bCode).getLended() + 1);
+            return new Lending(bCode, rCode, 1);
+        } else {
+            return null;
+        }
+
+    }
+
+    public int checkExist(LinkedList<Lending> listL, String bCode, String rCode) {
+        try {
+            for (Lending ls : listL) {
+                if (ls.getBcode().trim().equals(bCode) && ls.getRcode().trim().equals(rCode) && ls.getState() == 1) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        } catch (Exception e) {
+            return 0;
+        }
+        return 0;
+    }
+
+    public LinkedList<Lending> InputLender(Lending i) {
+        LinkedList<Lending> LenderList = new LinkedList<>();
+        if (i == null) {
+            return LenderList;
+        } else {
+            LenderList.add(i);
+            return LenderList;
+        }
+    }
+
+    public void Display() {
+        if (isEmpty()) {
+            System.out.println("Empty list");
+        } else {
+
+            LenderNode p = head;
+            while (p != null) {
+                System.out.println(p);
+                p = p.next;
+            }
+
+        }
+    }
+
+}
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package MyList;
+
+import Entity.Lending;
+
+/**
+ *
+ * @author Nhat Anh PC
+ */
+public class LenderNode {
+
+    Lending info;
+    LenderNode next;
+
+    LenderNode() {
+        next = null;
+    }
+
+    LenderNode(Lending info) {
+        this.info = info;
+        this.next = null;
+    }
+
+    public LenderNode(Lending info, LenderNode next) {
+        this.info = info;
+        this.next = next;
+    }
+    @Override
+    public String toString() {
+        return info + " ";
+    }
+
+}
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package MyList;
+
+import Entity.Reader;
+import Manager.Validate;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.LinkedList;
+import java.util.Scanner;
+
+/**
+ *
+ * @author Nhat Anh PC
+ */
+public class ReaderList {
+
+ 
+ public LinkedList<Reader> ReadFromFile(String fileName, LinkedList<Reader> r) throws Exception {
+    File file = new File(fileName);
+    Scanner sc = new Scanner(file);
+    while (sc.hasNextLine()) {
+        String st = sc.nextLine();
+        String[] s = st.split("[|]");
+        String rcode = s[0];
+        String name = s[1];
+        int byear = Integer.parseInt(s[2].trim());
+        r.addLast(new Reader(rcode, name, byear));
+    }
+    return r;
+}
+
+public void WriteToFile(String fileName, boolean status, LinkedList<Reader> rl) throws Exception {
+    if (rl.isEmpty()) {
+        return;
+    }
+    DataOutputStream g = new DataOutputStream(new FileOutputStream(fileName, status));
+    for (Reader r : rl) {
+        g.writeBytes(String.format("%-11s|%-20s|%4d", r.getRcode(), r.getName(), r.getByear()));
+    }
+    g.close();
+}
+
+
+    public void InputAndAddToTheEnd(LinkedList<Reader> rl) {
+        Validate v = new Validate();
+        System.out.println("Input Book Reader Code: ");
+        String rCode = Validate.checkInputString();
+        System.out.println("Input Book Name: ");
+        String Name = Validate.checkInputString();
+        System.out.println("Input Birth Year : ");
+        int Year = Validate.checkInputInt();
+        System.out.println("Input Book City: ");
+        String City = Validate.checkInputString();
+        rl.addLast(new Reader(rCode, Name, Year));
+    }
+    
+
+    public Reader SearchRcode(LinkedList<Reader> list, String rcode) {
+        for (Reader rs : list) {
+            if (rs.getRcode().trim().equals(rcode)) {
+                return rs;
+            } else {
+                continue;
+            }
+        }
+        return null;
+    }
+    
+    public void DeleteByBcode(LinkedList<Reader> list, String rcode) {
+        list.remove(SearchRcode(list, rcode));
+    }
+
+    public void Display(LinkedList<Reader> rl) {
+        if (rl.isEmpty()) {
+            System.out.println("Empty list");
+        } else {
+
+            System.out.println("Reader Code|       Name         |  Birth Year| City\n"
+                    + "-------------------------------------------------------------------");
+            for (Reader r : rl) {
+                System.out.println(r);
+            }
+        }
+    }
+}
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package bookasignment2.pkg1;
+
+import Entity.Book;
+import Entity.Lending;
+import Entity.Reader;
+import Manager.Validate;
+import Menu.Menu;
+import MyList.BookBST;
+import MyList.LenderList;
+import MyList.ReaderList;
+import java.util.LinkedList;
+
+/**
+ *
+ * @author Nhat Anh PC
+ */
+public class BookAsignment21 {
+
+    /**
+     * @param args the command line arguments
+     */
+     private static final String BOOK_URL = "D:\\CSD201\\BookAsignment2.1\\book.txt";
+    private static final String READER_URL = "D:\\CSD201\\BookAsignment2.1\\reader.txt";
+
+    public static void main(String[] args) throws Exception {
+        ReaderList r = new ReaderList();
+        BookBST b = new BookBST();
+        LenderList l = new LenderList();
+        Validate v = new Validate();
+        Menu m = new Menu();
+
+        LinkedList<Book> bl = new LinkedList<>();
+
+        LinkedList<Reader> rl = new LinkedList<>();
+
+        LinkedList<Lending> lendingList = new LinkedList<>();
+
+        while (true) {
+            System.out.println("1. Book List"
+                    + "\n2. Reader List"
+                    + "\n3. Lending List");
+            System.out.println("Enter your choice : ");
+            int c = Validate.checkInputLimited(0, 3);
+
+            if (c == 0) {
+                break;
+            }
+            switch (c) {
+                case 1:
+                    bl = m.MenuB(BOOK_URL, bl);
+                    break;
+                case 2:
+                    rl = m.MenuR(READER_URL, rl);
+                    break;
+                case 3:
+                    m.MenuO(b.root, rl, lendingList);
+                    break;
+            }
+        }
+    }
+
+}
